@@ -23,18 +23,18 @@ def demo_cwd():
 
 
 def demo_files():
-    print(os.listdir('.'))
+    print(os.listdir('..'))
     filename = 'file.txt'
 
     if os.path.isfile(filename):
         os.unlink(filename)
         print('deleted file')
 
-    print(os.listdir('.'))
+    print(os.listdir('..'))
 
     with open(filename, 'w') as f:
         f.write("Hello\n")
-    print(os.listdir('.'))
+    print(os.listdir('..'))
 
     with open(filename ) as f:
         print(f.readlines())
