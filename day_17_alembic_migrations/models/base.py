@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine, Column, Integer
 from sqlalchemy.orm import declarative_base, declared_attr, scoped_session, sessionmaker
 
-import day_16_orm_relationships.config as config
+import config as config
 
 
 class Base:

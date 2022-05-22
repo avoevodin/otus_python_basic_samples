@@ -1,11 +1,14 @@
-from __future__ import annotations
+import logging
 from pprint import pprint
 from typing import Optional, List
 
 from sqlalchemy.orm import Session as SessionType, joinedload
+from sqlalchemy.orm.exc import NoResultFound
 
-from models import User  # , Author, Post
+from models import User, Author, Post
 from models.base import Session
+
+log = logging.getLogger(__name__)
 
 
 def create_user(session: SessionType, username: str) -> User:
@@ -107,23 +110,34 @@ def find_user_with_author_and_posts(session: SessionType, username: str):
         pprint(user.author.posts)
 
 
-def main():
-    Base.metadata.create_all()
-    return
+def find_matching_usernames(session: SessionType, username_part: str) -> List[User]:
+    users: List[User] = (
+        session.query(User).filter(User.username.ilike(f"%{username_part}%")).all()
+    )
+    print("found users:")
+    pprint(users)
+    return users
 
+
+def main():
     session: SessionType = Session()
     # user_john = create_user(session, "john")
     # user_tom = create_user(session, "tom")
     # author_tom = create_author_for_user(session, user_tom, "tom smith")
     # author: Author = fetch_author_by_id(session, 1)
     # user_tom = fetch_user_with_author_by_username(session, "tom")
+    # try:
+    #     fetch_user_with_author_by_username(session, "todm")
+    # except NoResultFound:
+    #     log.info("No user todm")
     # user_john = fetch_user_with_author_by_username(session, "john")
-    # author = find_user_by_author_name(session, "tom smith")
+    # find_user_by_author_name(session, "tom smith")
     # find_user_by_author_name(session, "tom sm")
     # create_posts_for_author(session, author, ["Django intro", "Flask lesson"])
     # find_user_with_author_and_posts(session, "tom")
     # find_user_with_author_and_posts(session, "to")
     # find_user_with_author_and_posts(session, "john")
+    find_matching_usernames(session, "o")
     session.close()
 
 

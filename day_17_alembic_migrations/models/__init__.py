@@ -1,10 +1,9 @@
 __all__ = (
     "User",
-    # "Author",
-    # "Post",
+    "Author",
+    "Post",
 )
 
+from .author import Author
+from .post import Post
 from .user import User
-
-# from .author import Author
-# from .post import Post
