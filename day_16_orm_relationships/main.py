@@ -4,7 +4,7 @@ from typing import Optional, List
 from sqlalchemy.orm import Session as SessionType, joinedload
 
 from models import User, Author, Post
-from models.base import Session
+from models.base import Session  # , Base
 
 
 def create_user(session: SessionType, username: str) -> User:
