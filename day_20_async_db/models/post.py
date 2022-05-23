@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List
 
 from sqlalchemy import Column, String, Text, Integer, ForeignKey
 from sqlalchemy.orm import relationship
@@ -9,6 +9,7 @@ from .posts_tags import posts_tags_association_table
 
 if TYPE_CHECKING:
     from .tag import Tag
+    from .author import Author
 
 
 class Post(TimestampMixin, Base):
@@ -23,7 +24,8 @@ class Post(TimestampMixin, Base):
     )
 
     if TYPE_CHECKING:
-        tags: list[Tag]
+        tags: List[Tag]
+        author: Author
 
     def __str__(self):
         return (
