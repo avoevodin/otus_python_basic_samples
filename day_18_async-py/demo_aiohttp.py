@@ -71,5 +71,5 @@ if __name__ == "__main__":
     # asyncio.run(fetch_ip(SERVICES[0]))
     # asyncio.run(fetch_ip(SERVICES[1]))
     ip = asyncio.run(get_my_ip())
-    ip = asyncio.run(get_my_ip(0.102))
+    ip1 = asyncio.run(get_my_ip(0.102))
     logger.info("done, ip {!r}", ip)
