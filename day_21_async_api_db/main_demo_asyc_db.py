@@ -15,7 +15,7 @@ from models.base import Base
 log = logging.getLogger(__name__)
 
 async_engine = create_async_engine(config.SQLALCHEMY_ASYNC_DB_URI, echo=True)
-async_session = sessionmaker(async_engine, expire_on_commit=False, class_=AsyncSession)
+async_session = sessionmanker(async_engine, expire_on_commit=False, class_=AsyncSession)
 
 
 async def create_tables():

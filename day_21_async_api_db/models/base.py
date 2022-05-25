@@ -1,7 +1,7 @@
-from sqlalchemy import create_engine, Column, Integer
-from sqlalchemy.orm import declarative_base, declared_attr, scoped_session, sessionmaker
+from sqlalchemy import Column, Integer
+from sqlalchemy.orm import declarative_base, declared_attr
 
-import config as config
+from .session_sync import engine
 
 
 class Base:
@@ -15,8 +15,4 @@ class Base:
         return str(self)
 
 
-engine = create_engine(url=config.SQLALCHEMY_DB_URI, echo=config.SQLALCHEMY_DB_ECHO)
-Base = declarative_base(bind=engine, cls=Base)
-
-session_factory = sessionmaker(bind=engine)
-Session = scoped_session(session_factory)
+Base = declarative_base(cls=Base)
