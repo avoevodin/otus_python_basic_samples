@@ -1,27 +1,31 @@
+from typing import List, Optional
+
 from fastapi import APIRouter, HTTPException, Depends
+from sqlalchemy.ext.asyncio import AsyncSession as SessionType
 from starlette.status import HTTP_404_NOT_FOUND
 
-from . import crud
-from .dependencies import get_user_by_auth_token, get_db_sync
-from .schemas import UserIn, UserOut
 from models import User
-from sqlalchemy.orm import Session as SessionType
+from . import crud_async as crud
+from .dependencies import get_user_by_auth_token_async, get_db_async
+from .schemas import UserIn, UserOut
 
-router = APIRouter(tags=["Users sync"])
+router = APIRouter(tags=["Users async"])
 
 
 @router.get("", response_model=list[UserOut])
-def list_users(session: SessionType = Depends(get_db_sync)):
-    return crud.list_users(session)
+async def list_users(session: SessionType = Depends(get_db_async)) -> List[User]:
+    return await crud.list_users(session)
 
 
 @router.post("", response_model=UserOut)
-def create_user(user_in: UserIn, session: SessionType = Depends(get_db_sync)):
-    return crud.create_user(session, user_in)
+async def create_user(
+    user_in: UserIn, session: SessionType = Depends(get_db_async)
+) -> User:
+    return await crud.create_user(session, user_in)
 
 
 @router.get("/me", response_model=UserOut)
-def get_me(user: User = Depends(get_user_by_auth_token)):
+async def get_me(user: User = Depends(get_user_by_auth_token_async)) -> User:
     return user
 
 
@@ -49,8 +53,10 @@ def get_me(user: User = Depends(get_user_by_auth_token)):
         },
     },
 )
-def get_user_by_id(user_id: int, session: SessionType = Depends(get_db_sync)):
-    user = crud.get_user(session, user_id)
+async def get_user_by_id(
+    user_id: int, session: SessionType = Depends(get_db_async)
+) -> Optional[User]:
+    user = await crud.get_user(session, user_id)
     if user:
         return user
 

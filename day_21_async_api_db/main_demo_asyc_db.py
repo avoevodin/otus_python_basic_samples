@@ -6,7 +6,7 @@ from typing import List
 from sqlalchemy import select, desc
 from sqlalchemy.engine.result import Result
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
-from sqlalchemy.orm import sessionmaker, joinedload, selectinload, noload
+from sqlalchemy.orm import sessionmaker, joinedload, selectinload
 
 import config
 from models import User, Author, Post, Tag
@@ -15,7 +15,7 @@ from models.base import Base
 log = logging.getLogger(__name__)
 
 async_engine = create_async_engine(config.SQLALCHEMY_ASYNC_DB_URI, echo=True)
-async_session = sessionmanker(async_engine, expire_on_commit=False, class_=AsyncSession)
+async_session = sessionmaker(async_engine, expire_on_commit=False, class_=AsyncSession)
 
 
 async def create_tables():

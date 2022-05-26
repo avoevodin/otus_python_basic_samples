@@ -1,29 +1,40 @@
+import logging
 from typing import Optional
 
-from .schemas import User, UserIn
+from fastapi import HTTPException
+from fastapi import status
+from sqlalchemy.exc import DatabaseError
+from sqlalchemy.orm import Session
+
+from models import User
+from .schemas import UserIn as UserInSchema
+
+log = logging.getLogger(__name__)
 
 
-USER_ID_TO_USER: dict[int, User] = {}
-USER_TOKEN_TO_USER: dict[str, User] = {}
+def list_users(session: Session) -> list[User]:
+    return session.query(User).all()
 
 
-def list_users() -> list[User]:
-    return list(USER_ID_TO_USER.values())
+def create_user(session: Session, user_in: UserInSchema) -> User:
+    user = User(**user_in.dict())
+    session.add(user)
 
-
-def create_user(user_in: UserIn) -> User:
-    new_id = len(USER_ID_TO_USER) + 1
-    user = User(id=new_id, **user_in.dict())
-
-    USER_ID_TO_USER[new_id] = user
-    USER_TOKEN_TO_USER[user.token] = user
-
+    try:
+        session.commit()
+    except DatabaseError as e:
+        log.exception("could not save user")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+        )
+    session.refresh(user)
     return user
 
 
-def get_user(user_id: int) -> Optional[User]:
-    return USER_ID_TO_USER.get(user_id)
+def get_user(session: Session, user_id: int) -> Optional[User]:
+    return session.get(User, user_id)
 
 
-def get_user_by_token(token: str) -> Optional[User]:
-    return USER_TOKEN_TO_USER.get(token)
+def get_user_by_token(session: Session, token: str) -> Optional[User]:
+    user = session.query(User).filter(User.token == token).one_or_none()
+    return user
