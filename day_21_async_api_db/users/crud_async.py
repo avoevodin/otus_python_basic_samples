@@ -1,6 +1,9 @@
 import logging
+
+# from asyncio import sleep
 from typing import Optional, List
 
+from aiohttp import ClientSession
 from fastapi import HTTPException
 from fastapi import status
 from sqlalchemy import select
@@ -38,6 +41,14 @@ async def create_user(session: AsyncSession, user_in: UserInSchema) -> User:
 
 
 async def get_user(session: AsyncSession, user_id: int) -> Optional[User]:
+    # await sleep(0.1)
+    try:
+        async with ClientSession() as client:
+            async with client.get("https://httpbin.org/get") as response:
+                await response.json()
+    except:
+        pass
+
     return await session.get(User, user_id)
 
 

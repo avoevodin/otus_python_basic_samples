@@ -19,7 +19,7 @@ def generate_token():
 
 
 class User(TimestampMixin, Base):
-    username = Column(String(20), unique=True)
+    username = Column(String(100), unique=True)
     is_staff = Column(Boolean, default=False, server_default="FALSE")
     token = Column(String, default=generate_token, nullable=False)
     author = relationship("Author", back_populates="user", uselist=False)

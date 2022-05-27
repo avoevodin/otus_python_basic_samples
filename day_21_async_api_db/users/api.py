@@ -1,3 +1,5 @@
+from typing import List
+
 from fastapi import APIRouter, HTTPException, Depends
 from starlette.status import HTTP_404_NOT_FOUND
 
@@ -18,6 +20,11 @@ def list_users(session: SessionType = Depends(get_db_sync)):
 @router.post("", response_model=UserOut)
 def create_user(user_in: UserIn, session: SessionType = Depends(get_db_sync)):
     return crud.create_user(session, user_in)
+
+
+@router.post("/many ", response_model=List[UserOut])
+def create_many_users(count: int = 500, session: SessionType = Depends(get_db_sync)):
+    return crud.create_many_users(session, count)
 
 
 @router.get("/me", response_model=UserOut)

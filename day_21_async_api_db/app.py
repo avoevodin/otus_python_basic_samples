@@ -4,7 +4,7 @@ from pydantic import constr
 from users.api import router as users_router
 from users.api_async import router as users_router_async
 
-app = FastAPI()
+app = FastAPI(title="Sync API")
 app.include_router(users_router, prefix="/users/sync")
 app.include_router(users_router_async, prefix="/users")
 

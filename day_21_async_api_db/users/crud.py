@@ -1,6 +1,10 @@
 import logging
-from typing import Optional
 
+# from time import time, sleep
+from time import time
+from typing import Optional, List
+
+import requests
 from fastapi import HTTPException
 from fastapi import status
 from sqlalchemy.exc import DatabaseError
@@ -32,9 +36,23 @@ def create_user(session: Session, user_in: UserInSchema) -> User:
 
 
 def get_user(session: Session, user_id: int) -> Optional[User]:
+    # sleep(0.1)
+    try:
+        response = requests.get("https://httpbin.org/get")
+    except:
+        pass
+    response.json()
     return session.get(User, user_id)
 
 
 def get_user_by_token(session: Session, token: str) -> Optional[User]:
     user = session.query(User).filter(User.token == token).one_or_none()
     return user
+
+
+def create_many_users(session: Session, count: int) -> List[User]:
+    current_time = time()
+    users = [User(username=f"user_{current_time}_{i:03d}") for i in range(1, count + 1)]
+    session.add_all(users)
+    session.commit()
+    return users
