@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 
 from views.products import products_app
 
@@ -9,9 +9,9 @@ app.config.update(ENV="development", SECRET_KEY="ldkjflds")
 app.register_blueprint(products_app, url_prefix="/products")
 
 
-@app.route("/", endpoint="index")
-def hello_world():
-    return "<p>Hello, World!</p>"
+@app.route("/")
+def index_page():
+    return render_template()
 
 
 @app.get("/hello/")
