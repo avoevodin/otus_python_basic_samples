@@ -17,7 +17,11 @@ app.config.update(
 
 db.init_app(app)
 
-migrate = Migrate(app, db)
+migrate = Migrate(
+    app,
+    db,
+    compare_type=True,
+)
 
 # db.app = app
 # or
