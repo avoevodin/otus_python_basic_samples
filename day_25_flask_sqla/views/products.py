@@ -10,7 +10,7 @@ from flask import (
 )
 from werkzeug.exceptions import BadRequest, NotFound
 
-from views.forms import ProductForm
+from day_25_flask_sqla.views.forms import ProductForm
 
 products_app = Blueprint("products_app", __name__)
 

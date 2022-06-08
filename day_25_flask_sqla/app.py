@@ -1,10 +1,29 @@
 from flask import Flask, request, render_template
+from flask_migrate import Migrate
 
-from views.products import products_app
+from day_25_flask_sqla.models.database import db
+
+from day_25_flask_sqla.config import SQLALCHEMY_DB_URI
+from day_25_flask_sqla.views.products import products_app
 
 app = Flask(__name__)
 
-app.config.update(ENV="development", SECRET_KEY="ldkjflds")
+app.config.update(
+    ENV="development",
+    SECRET_KEY="ldkjflds",
+    SQLALCHEMY_DATABASE_URI=SQLALCHEMY_DB_URI,
+    SQLALCHEMY_TRACK_MODIFICATIONS=False,
+)
+
+db.init_app(app)
+
+migrate = Migrate(app, db)
+
+# db.app = app
+# or
+# with app.app_context():
+#     db.create_all()
+#     db.drop_all()
 
 app.register_blueprint(products_app, url_prefix="/products")
 

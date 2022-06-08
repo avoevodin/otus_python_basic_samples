@@ -7,5 +7,5 @@ class ProductForm(FlaskForm):
     name = StringField(
         label="Product name",
         name="product-name",
-        validators=[DataRequired(), Length(min=3)],
+        validators=[DataRequired(), Length(min=3, max=120)],
     )
