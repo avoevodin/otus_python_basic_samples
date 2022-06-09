@@ -1,40 +1,43 @@
+import logging
+
 from flask import (
     Blueprint,
-    jsonify,
     render_template,
-    abort,
     request,
     url_for,
     redirect,
     flash,
 )
-from werkzeug.exceptions import BadRequest, NotFound
+from sqlalchemy.exc import IntegrityError, DatabaseError
+from werkzeug.exceptions import NotFound, BadRequest, InternalServerError
 
+from day_25_flask_sqla.models import Product
 from day_25_flask_sqla.views.forms import ProductForm
+from day_25_flask_sqla.models.database import db
 
+log = logging.getLogger(__name__)
 products_app = Blueprint("products_app", __name__)
-
-PRODUCTS = {1: "Tablet", 2: "Smartphone", 3: "Laptop"}
 
 
 @products_app.get("/", endpoint="list")
 def get_products_list():
-    return render_template("products/list.html", products=list(PRODUCTS.items()))
+    products = Product.query.all()
+    return render_template("products/list.html", products=products)
 
 
 @products_app.route("/<int:product_id>", methods=["GET", "DELETE"], endpoint="details")
 def get_product_by_id(product_id: int):
-    product_name = PRODUCTS.get(product_id)
-    if not product_name:
+    product = Product.query.get(product_id)
+    if not product:
         # abort(404, f"Product #{product_id} not found!")
         raise NotFound(f"Product #{product_id} not found!")
 
     if request.method == "GET":
-        return render_template(
-            "products/details.html", product_name=product_name, product_id=product_id
-        )
+        return render_template("products/details.html", product=product)
 
-    product_name = PRODUCTS.pop(product_id)
+    product_name = product.name
+    db.session.delete(product)
+    db.session.commit()
     flash(f"Deleted product #{product_id} {product_name!r}", "warning")
     url = url_for("products_app.list")
     return {"ok": True, "url": url}
@@ -54,10 +57,21 @@ def add_product():
     #     raise BadRequest(f"Field 'product-name' is required!")
 
     product_name = form.name.data
+    is_new = form.is_new.data
+    product = Product(name=product_name, is_new=is_new)
+    db.session.add(product)
+    try:
+        db.session.commit()
+    except IntegrityError:
+        error_text = (
+            f"Could not save product {product_name!r}, probably name is not unique!"
+        )
+        form.form_errors.append(error_text)
+        return render_template("products/add.html", form=form), 400
+    except DatabaseError:
+        log.exception("could not save product %r", product_name)
+        raise InternalServerError(f"Could not save product {product_name!r}!")
 
-    product_id = len(PRODUCTS) + 1
-    PRODUCTS[product_id] = product_name
-
-    flash(f"Created new product: {product_name}", "success")
-    url = url_for("products_app.details", product_id=product_id)
+    flash(f"Created new product: {product.name}", "success")
+    url = url_for("products_app.details", product_id=product.id)
     return redirect(url)

@@ -6,12 +6,15 @@
 {% block body %}
     <h1>Products:</h1>
     {% if products %}
-        <ul>
-            {% for product_id, product_name in products %}
-                <li>
-                    <a href="{{ url_for('products_app.details', product_id=product_id) }}">
-                        {{ product_name }}
+        <ul class="list-group">
+            {% for product in products %}
+                <li class="list-group-item">
+                    <a class="text-decoration-none" href="{{ url_for('products_app.details', product_id=product.id) }}">
+                        {{ product.name }}
                     </a>
+                    {% if product.is_new %}
+                      <span class="badge bg-secondary">New</span>
+                    {% endif %}
                 </li>
             {% endfor %}
         </ul>
