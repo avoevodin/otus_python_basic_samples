@@ -23,7 +23,7 @@ class Service:
 
 SERVICES = [
     Service(name="ipify", url="https://api.ipify.org/?format=json", field="ip"),
-    Service(name="ip-api", url="http://ip-api.com/json", field="query"),
+    Service(name="ip-shop", url="http://ip-api.com/json", field="query"),
 ]
 
 

@@ -1,6 +1,10 @@
 version: "3"
 
 services:
+  shop:
+    build:
+      context: .
+      dockerfile: docker-build/shop/Dockerfile
   pg:
     image: postgres:14.0-alpine
     environment:
