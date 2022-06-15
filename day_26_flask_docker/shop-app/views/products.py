@@ -11,9 +11,9 @@ from flask import (
 from sqlalchemy.exc import IntegrityError, DatabaseError
 from werkzeug.exceptions import NotFound, BadRequest, InternalServerError
 
-from day_25_flask_sqla.models import Product
-from day_25_flask_sqla.views.forms import ProductForm
-from day_25_flask_sqla.models.database import db
+from models import Product
+from views.forms import ProductForm
+from models.database import db
 
 log = logging.getLogger(__name__)
 products_app = Blueprint("products_app", __name__)

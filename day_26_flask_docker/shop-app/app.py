@@ -1,10 +1,9 @@
 from flask import Flask, request, render_template
 from flask_migrate import Migrate
+from models.database import db
 
-from day_25_flask_sqla.models.database import db
-
-from day_25_flask_sqla.config import SQLALCHEMY_DB_URI
-from day_25_flask_sqla.views.products import products_app
+from config import SQLALCHEMY_DB_URI
+from views.products import products_app
 
 app = Flask(__name__)
 
