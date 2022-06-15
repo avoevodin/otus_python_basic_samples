@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% block head %}
+  <style>
+    h1, h2 {
+      font-family: ".AppleSystemUIFont", "Comic Sans MS", serif;
+    }
+
+    p {
+      font-family: "Arial", serif;
+    }
+
+    p.lorem-paragraph {
+      font-family: Damascus, serif;
+    }
+
+    .green-button {
+      background-color: #4CAF50; /* Green */
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 5px;
+      cursor: pointer;
+      border: 3px double darkblue;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 15px 25px;
+      font-size: 24px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      outline: none;
+      color: #fff;
+      background-color: #4CAF50;
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 9px #999;
+    }
+
+    .button:hover {
+      background-color: #3e8e41
+    }
+
+    .button:active {
+      background-color: #3e8e41;
+      box-shadow: 0 5px #666;
+      transform: translateY(4px);
+    }
+
+    #click-btn {
+      background-color: royalblue;
+    }
+
+    #click-btn:hover {
+      background-color: darkblue;
+    }
+
+    #click-btn:active {
+      background-color: darkblue;
+    }
+
+    div h1, h2 span {
+      color: deeppink;
+    }
+  </style>
+{% endblock %}
+
+{% block title %}
+  Index
+{% endblock %}
+
+{% block body %}
+  <div>
+    <h1>Index page</h1>
+    <span>Hello span in div!</span>
+    <p>
+      1) Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam blanditiis culpa cumque cupiditate
+      fugit
+      impedit non nostrum, omnis quasi quia quibusdam rem repellendus rerum saepe sit temporibus vero voluptatem
+      voluptatibus!
+    </p>
+    <p class="lorem-paragraph">
+    <h1><span>Hello span in h1 into div!</span></h1>
+    <h2><span>Hello span in h2 into div!</span></h2>
+    2) Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam blanditiis culpa cumque cupiditate
+    fugit
+    impedit non nostrum, omnis quasi quia quibusdam rem repellendus rerum saepe sit temporibus vero voluptatem
+    voluptatibus!
+    </p>
+  </div>
+  <br>
+  <div class="container-fluid ">
+    <div class="row bg-dark">
+      <div class="bg-secondary col-sm-8 col-lg-4">1</div>
+      <div class="bg-warning col-sm-4 col-lg-2">2</div>
+      <div class="bg-primary col-sm-2 col-lg-1">3</div>
+      <div class="bg-success col-sm-10 col-lg-5">4</div>
+    </div>
+    <div class="row bg-dark">
+      <div class="bg-info col-sm">col-sm</div>
+      <div class="bg-danger col-sm">col-sm</div>
+      <div class="bg-secondary col-sm">col-sm</div>
+    </div>
+  </div>
+  <br>
+  <div>
+    <ul>
+      <li>
+        <button class="green-button">It's a button</button>
+      </li>
+      <li>
+        <a class="green-button" href="#">It's a link (<code>a href</code>)</a>
+      </li>
+      <li>
+        <div class="green-button">It's a div</div>
+      </li>
+    </ul>
+  </div>
+  <br>
+  <div>
+    <p>Clicked <span id="click-count">0</span> time(s)!</p>
+    <button id="click-btn" class="button ">Click me!</button>
+    <button class="button" onclick="handleClick()">Click me class!</button>
+  </div>
+  <br>
+  <script>
+      let numberOfClicks = 0
+      const countSpan = document.getElementById('click-count')
+
+      function increaseCounter() {
+          numberOfClicks += 1
+      }
+
+      function displayCurrentCount() {
+          countSpan.innerText = numberOfClicks
+      }
+
+      function handleClick() {
+          increaseCounter()
+          displayCurrentCount()
+      }
+
+      const clickButton = document.getElementById('click-btn')
+      // clickButton.onclick = handleClick
+      clickButton.addEventListener("click", handleClick)
+      clickButton.addEventListener("mouseover", handleClick)
+  </script>
+  <noscript>
+    We need JS to work properly!
+  </noscript>
+{% endblock %}
