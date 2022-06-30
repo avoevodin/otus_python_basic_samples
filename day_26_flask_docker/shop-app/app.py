@@ -1,18 +1,15 @@
+from os import getenv
+
 from flask import Flask, request, render_template
 from flask_migrate import Migrate
-from models.database import db
 
-from config import SQLALCHEMY_DB_URI
+from models.database import db
 from views.products import products_app
 
 app = Flask(__name__)
 
-app.config.update(
-    ENV="development",
-    SECRET_KEY="ldkjflds",
-    SQLALCHEMY_DATABASE_URI=SQLALCHEMY_DB_URI,
-    SQLALCHEMY_TRACK_MODIFICATIONS=False,
-)
+config_name = "config.%s" % getenv("CONFIG", "DevelopmentConfig")
+app.config.from_object(config_name)
 
 db.init_app(app)
 
@@ -57,4 +54,4 @@ def get_item_string(item_id: str):
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5050)
+    app.run(port=5050)
