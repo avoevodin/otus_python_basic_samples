@@ -12,8 +12,21 @@
       <li>Kind: {{ animal.kind }}</li>
     </ul>
     <div>
-      <strong>Description</strong>
+      <strong>Description:</strong>
       <p>{{ animal.description }}</p>
+    </div>
+    <div>
+      <strong>Biography:</strong>
+      <p>{{ animal.details.biography }}</p>
+    </div>
+    <div>
+      <strong>Food:</strong>
+      <ul>
+        {% for food in animal.food.all %}
+          <li>{{ food.name }}</li>
+        {% endfor %}
+        
+      </ul>
     </div>
     <a href="{% url 'animals:list' %}">Back to animals</a>
   </div>
