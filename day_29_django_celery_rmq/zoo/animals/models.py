@@ -69,8 +69,8 @@ class AnimalFood(models.Model):
 @receiver(post_save, sender=Animal)
 def animal_saved_handler(instance: Animal, created: bool, **kwargs):
     print(f"instance: {instance}, created: {created}")
-    # if not created:
-    #     return
+    if not created:
+        return
 
     path = reverse("animals:details", kwargs=dict(pk=instance.pk))
     task = new_animal_created_notification.delay(
