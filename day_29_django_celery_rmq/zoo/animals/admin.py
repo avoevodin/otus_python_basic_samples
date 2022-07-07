@@ -7,8 +7,9 @@ from .models import (
 )
 
 
+@admin.register(Animal)
 class AnimalAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "age", "kind")
+    list_display = ("id", "name", "age", "kind", "created_at_str")
     list_display_links = ("id", "name")
 
     def get_queryset(self, request):
@@ -31,7 +32,7 @@ class AnimalDetailAdmin(admin.ModelAdmin):
         return obj.biography[:50] + "..."
 
 
-admin.site.register(Animal, AnimalAdmin)
+# admin.site.register(Animal, AnimalAdmin)
 admin.site.register(AnimalKind)
 # admin.site.register(AnimalDetail, AnimalDetailAdmin)
 admin.site.register(AnimalFood)

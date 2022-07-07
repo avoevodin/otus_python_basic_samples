@@ -1,6 +1,8 @@
-from django.shortcuts import render, HttpResponse, get_object_or_404
+from celery.result import AsyncResult
 from django.http import HttpRequest
+from django.shortcuts import render, get_object_or_404
 
+from zoo import celery_app
 from .models import Animal
 
 
@@ -20,3 +22,15 @@ def details(request: HttpRequest, pk: int):
     # print("animal.food_set", animal.food.all())
     context = {"animal": animal}
     return render(request, "animals/details.html", context=context)
+
+
+def task_status(request: HttpRequest, task_id: str):
+    task: AsyncResult = celery_app.AsyncResult(task_id)
+    status = task.status
+
+    context = {
+        "task_id": task_id,
+        "status": status,
+    }
+
+    return render(request, "animals/task_status.html", context=context)

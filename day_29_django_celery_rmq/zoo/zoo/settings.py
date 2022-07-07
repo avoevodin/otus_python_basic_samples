@@ -136,3 +136,17 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+BASE_URL = "http://localhost:8000"
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+if DEBUG:
+    EMAIL_HOST = "localhost"
+    EMAIL_PORT = "1025"
+
+# Celery
+CELERY_BROKER_URL = "amqp://localhost:5672"
+CELERY_RESULT_BACKEND = "rpc://"
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
