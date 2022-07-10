@@ -17,9 +17,6 @@ class AnimalKind(models.Model):
 
 
 class Animal(models.Model):
-    class Meta:
-        ordering = ["id"]
-
     name = models.CharField(max_length=64)
     age = models.PositiveSmallIntegerField(null=True)
     kind = models.ForeignKey(AnimalKind, on_delete=models.PROTECT, null=True)
