@@ -1,0 +1,37 @@
+{% extends 'animals/base.html' %}
+
+{% block title %}
+  Animals list
+{% endblock %}
+
+{% block body %}
+  {% if request.user.is_authenticated %}
+    <small><a href="{% url 'logout' %}">Logout</a></small>
+  {% else %}
+    <small><a href="{% url 'login' %}">Login</a></small>
+  {% endif %} 
+  <h1>
+    Hello {% firstof request.user.firstname request.user.username %}!
+  </h1>
+  <div>
+    <ul>
+      {# {% for animal in animal_list %} #}
+       {% for animal in object_list %}
+       {# {% for animal in animals %}  #}
+        <li>
+          <a href="{% url 'animals:details' animal.pk %}">
+            {{ animal.name }}
+          </a>
+           ({{ animal.kind }})
+          <form action="{% url 'animals:delete' animal.pk %}" method="post">
+            {% csrf_token %}
+            {# onclick = "Document.getElementById('my_form')" #}
+            <input type="submit" value="Delete">
+          </form>
+        </li>
+      {% endfor %}
+    </ul>
+    <hr>
+    <a href="{% url 'animals:create' %}">Create Animal</a>
+  </div>
+{% endblock %}
