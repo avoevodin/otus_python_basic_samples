@@ -11,4 +11,8 @@
 {#    {{ form.as_ul }}#}
     <input type="submit" value="Save">
   </form>
+  <br>
+  <div>
+    <a href="{% url 'animals:list' %}">Back to animals</a>
+  </div>
 {% endblock %}

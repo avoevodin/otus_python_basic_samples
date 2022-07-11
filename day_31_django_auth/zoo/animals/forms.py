@@ -15,5 +15,5 @@ class AnimalCreateForm(ModelForm):
         for name, field in self.fields.items():
             print("name: ", name, "field: ", field)
             # field.label_suffix = " ="
-            field.attrs["class"] = "model-form"
+            field.widget.attrs["class"] = "model-form"
             # field.label = ...

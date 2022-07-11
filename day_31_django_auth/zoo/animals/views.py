@@ -1,4 +1,5 @@
 from celery.result import AsyncResult
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.http import HttpRequest, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
@@ -8,24 +9,6 @@ from django.views.generic import ListView, DetailView, DeleteView, CreateView
 from zoo import celery_app
 from .models import Animal, AnimalKind
 from .forms import AnimalCreateForm
-
-
-def index(request: HttpRequest):
-    animals = Animal.objects.select_related("kind").order_by("-id").all()
-    context = {
-        "animals": animals,
-    }
-    return render(request, "animals/index.html", context=context)
-
-
-def details(request: HttpRequest, pk: int):
-    animal = get_object_or_404(
-        Animal.objects.select_related("kind", "details").prefetch_related("food"),
-        pk=pk,
-    )
-    # print("animal.food_set", animal.food.all())
-    context = {"animal": animal}
-    return render(request, "animals/details.html", context=context)
 
 
 def task_status(request: HttpRequest, task_id: str):
@@ -63,12 +46,18 @@ class AnimalDetailView(DetailView):
     template_name = "animals/details.html"
 
 
-class AnimalDeleteView(DeleteView):
+class AnimalDeleteView(PermissionRequiredMixin, DeleteView):
     model = Animal
     success_url = reverse_lazy("animals:list")
+    permission_required = ("animals.delete_animal",)
+
+    def has_permission(self):
+        prms = self.request.user.get_all_permissions()
+        print("User perms: ", prms)
+        return super().has_permission()
 
 
-class AnimalCreateView(CreateView):
+class AnimalCreateView(LoginRequiredMixin, CreateView):
     model = Animal
     # fields = ["name", "age", "kind", "description"]
     success_url = reverse_lazy("animals:details")

@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     # side-packages
     "debug_toolbar",
     # my packages
+    "myauth.apps.MyauthConfig",
     "animals.apps.AnimalsConfig",
 ]
 
@@ -150,3 +151,5 @@ CELERY_BROKER_URL = "amqp://localhost:5672"
 CELERY_RESULT_BACKEND = "rpc://"
 # CELERY_TASK_TRACK_STARTED = True
 # CELERY_TASK_TIME_LIMIT = 30 * 60
+
+# AUTH_USER_MODEL = "myauth.MyCustomUser"
