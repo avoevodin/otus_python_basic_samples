@@ -7,7 +7,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 UserModel: AbstractUser = get_user_model()
-print("user model: ", UserModel, "repr: ", repr(UserModel))
+# print("user model: ", UserModel, "repr: ", repr(UserModel))
 
 
 # class MyCustomUser(AbstractUser):

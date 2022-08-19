@@ -1,0 +1,74 @@
+[
+{
+    "model": "animals.animalkind",
+    "pk": 1,
+    "fields": {
+        "name": "cat",
+        "description": "All cats",
+        "deleted": false
+    }
+},
+{
+    "model": "animals.animalkind",
+    "pk": 2,
+    "fields": {
+        "name": "dog",
+        "description": "All dogs",
+        "deleted": false
+    }
+},
+{
+    "model": "animals.animalkind",
+    "pk": 3,
+    "fields": {
+        "name": "bird",
+        "description": "all birds",
+        "deleted": false
+    }
+},
+{
+    "model": "animals.animalkind",
+    "pk": 4,
+    "fields": {
+        "name": "mice",
+        "description": "",
+        "deleted": true
+    }
+},
+{
+    "model": "animals.animalkind",
+    "pk": 5,
+    "fields": {
+        "name": "bear",
+        "description": "",
+        "deleted": false
+    }
+},
+{
+    "model": "animals.animalkind",
+    "pk": 6,
+    "fields": {
+        "name": "horse",
+        "description": "",
+        "deleted": false
+    }
+},
+{
+    "model": "animals.animalkind",
+    "pk": 7,
+    "fields": {
+        "name": "pig",
+        "description": "",
+        "deleted": false
+    }
+},
+{
+    "model": "animals.animalkind",
+    "pk": 8,
+    "fields": {
+        "name": "reptile",
+        "description": "",
+        "deleted": false
+    }
+}
+]
