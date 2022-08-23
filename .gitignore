@@ -2,3 +2,6 @@ venv/
 .idea/
 *.db
 node_modules/
+day_36_opencv/data
+.DS_Store
+__pycache__/
